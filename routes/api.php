@@ -10,13 +10,13 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
 	//	AUTH
-  Route::get('/me', [AuthController::class, 'me']);
-  Route::post('/logout', [AuthController::class, 'logout']);
+	Route::get('/me', [AuthController::class, 'me']);
+	Route::post('/logout', [AuthController::class, 'logout']);
 	//	MARKET
 	Route::get('/market/prices', [MarketController::class, 'getPrices']);
 	//	WALLET
 	Route::get('/wallet', [WalletController::class, 'index']);
 	Route::post('/wallet', [WalletController::class, 'store']);
-  Route::delete('/wallet/{id}', [WalletController::class, 'destroy']);
-	//	
+	Route::delete('/wallet/{id}', [WalletController::class, 'destroy']);
+	Route::get('/wallet/portfolio', [WalletController::class, 'portfolio']);
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Wallet;
 use App\Http\Requests\Wallet\StoreRequest;
+use App\Services\PortfolioService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -60,5 +61,15 @@ class WalletController extends Controller
 			$status = 200;
 		}
 		return response()->json($data, $status);
+	}
+
+	/**
+	 * Obtiene el portafolio del usuario
+	 * @param PortfolioService $portfolioService
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function portfolio(PortfolioService $portfolioService)
+	{
+		return response()->json($portfolioService->getPortfolio());
 	}
 }
