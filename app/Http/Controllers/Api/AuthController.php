@@ -9,41 +9,60 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-  public function version()
-  {
-    return response()->json([
-      'app' => 'Cripto Wallet API',
-      'version' => '0.0.1'
-    ]);
-  }
+	/**
+	 * Obtiene la versión de la API
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function version()
+	{
+		return response()->json([
+			'app' => 'Cripto Wallet API',
+			'version' => '0.0.1'
+		]);
+	}
 
-  public function me(Request $request)
-  {
-    return response()->json($request->user());
-  }
+	/**
+	 * Obtiene el usuario autenticado
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function me(Request $request)
+	{
+		return response()->json($request->user());
+	}
 
-  public function login(Request $request)
-  {
-    if (!Auth::attempt($request->only('email', 'password'))) {
-      return response()->json(['error' => 'Unauthorized'], 401);
-    }
+	/**
+	 * Inicia sesión
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function login(Request $request)
+	{
+		if (!Auth::attempt($request->only('email', 'password'))) {
+			return response()->json(['error' => 'Unauthorized'], 401);
+		}
 
-    $user = Auth::user();
+		$user = Auth::user();
 
-    $token = $user->createToken('authToken')->accessToken;
+		$token = $user->createToken('authToken')->accessToken;
 
-    return response()->json([
-      'token' => $token,
-      'user' => $user
-    ]);
-  }
+		return response()->json([
+			'token' => $token,
+			'user' => $user
+		]);
+	}
 
-  public function logout(Request $request)
-{
-    $request->user()->token()->revoke();
+	/**
+	 * Cierra sesión
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function logout(Request $request)
+	{
+		$request->user()->token()->revoke();
 
-    return response()->json([
-      'message' => 'Logout successful'
-    ]);
-  }
+		return response()->json([
+			'message' => 'Logout successful'
+		]);
+	}
 }
