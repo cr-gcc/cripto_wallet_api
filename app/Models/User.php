@@ -46,4 +46,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+		// Relationships
+		public function wallets()
+		{
+			return $this->hasMany(Wallet::class);
+		}
 }
