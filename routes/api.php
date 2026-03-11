@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MarketController;
 use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\AlertController;
 
 //	AUTH
 Route::get('/version', [AuthController::class, 'version']);
@@ -24,4 +25,7 @@ Route::middleware('auth:api')->group(function () {
 	//	TRANSACTION
 	Route::get('/transactions', [TransactionController::class, 'index']);
 	Route::post('/transactions', [TransactionController::class, 'store']);
+	//  ALERTS
+	Route::get('/alerts', [AlertController::class, 'index']);
+	Route::post('/alerts', [AlertController::class, 'store']);
 });
