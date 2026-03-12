@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\MarketController;
 use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\AlertController;
+use App\Http\Controllers\NotificationController;
 
 //	AUTH
 Route::get('/version', [AuthController::class, 'version']);
@@ -28,4 +29,7 @@ Route::middleware('auth:api')->group(function () {
 	//  ALERTS
 	Route::get('/alerts', [AlertController::class, 'index']);
 	Route::post('/alerts', [AlertController::class, 'store']);
+  //  NOTIFICATIONS
+  Route::get('/notifications', [NotificationController::class, 'index']);
+  Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
 });
