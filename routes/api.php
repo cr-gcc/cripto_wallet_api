@@ -1,35 +1,52 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\MarketController;
-use App\Http\Controllers\Api\WalletController;
-use App\Http\Controllers\Api\TransactionController;
-use App\Http\Controllers\Api\AlertController;
+use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Crypto\CryptoController;
+use App\Http\Controllers\Api\V1\Wallets\WalletController;
+use App\Http\Controllers\Api\V1\Transactions\TransactionController;
+use App\Http\Controllers\Api\V1\Alerts\AlertController;
 use App\Http\Controllers\NotificationController;
 
-//	AUTH
-Route::get('/version', [AuthController::class, 'version']);
-Route::post('/login', [AuthController::class, 'login']);
-//	MARKET
-Route::get('/market/prices', [MarketController::class, 'getPrices']);
-
-Route::middleware('auth:api')->group(function () {
+Route::prefix('v1')->group(function () {
 	//	AUTH
-	Route::get('/me', [AuthController::class, 'me']);
-	Route::post('/logout', [AuthController::class, 'logout']);
-	//	WALLET
-	Route::get('/wallet', [WalletController::class, 'index']);
-	Route::post('/wallet', [WalletController::class, 'store']);
-	Route::delete('/wallet/{id}', [WalletController::class, 'destroy']);
-	Route::get('/wallet/portfolio', [WalletController::class, 'portfolio']);
-	//	TRANSACTION
-	Route::get('/transactions', [TransactionController::class, 'index']);
-	Route::post('/transactions', [TransactionController::class, 'store']);
-	//  ALERTS
-	Route::get('/alerts', [AlertController::class, 'index']);
-	Route::post('/alerts', [AlertController::class, 'store']);
-  //  NOTIFICATIONS
-  Route::get('/notifications', [NotificationController::class, 'index']);
-  Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
+	Route::get('/version', [AuthController::class, 'version']);
+	Route::prefix('auth')->group(function () {
+		Route::post('/register', [AuthController::class, 'register']);
+		Route::post('/login', [AuthController::class, 'login']);
+	});
+	//	CRYPTO
+	Route::prefix('crypto')->group(function () {
+		Route::get('/prices', [CryptoController::class, 'prices']);
+	});
+
+	Route::middleware('auth:api')->group(function () {
+		//	AUTH
+		Route::prefix('auth')->group(function () {
+			Route::get('/me', [AuthController::class, 'me']);
+			Route::post('/logout', [AuthController::class, 'logout']);
+		});
+		//	WALLET
+		Route::prefix('wallet')->group(function () {
+			Route::get('/', [WalletController::class, 'index']);
+			Route::post('/', [WalletController::class, 'store']);
+			Route::delete('/{id}', [WalletController::class, 'destroy']);
+			Route::get('/portfolio', [WalletController::class, 'portfolio']);
+		});
+		//	TRANSACTION
+		Route::prefix('transactions')->group(function () {
+			Route::get('/', [TransactionController::class, 'index']);
+			Route::post('/', [TransactionController::class, 'store']);
+		});
+		//  ALERTS
+		Route::prefix('alerts')->group(function () {
+			Route::get('/', [AlertController::class, 'index']);
+			Route::post('/', [AlertController::class, 'store']);
+		});
+		//  NOTIFICATIONS
+		Route::prefix('notifications')->group(function () {
+			Route::get('/', [NotificationController::class, 'index']);
+			Route::post('/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
+		});
+	});
 });
