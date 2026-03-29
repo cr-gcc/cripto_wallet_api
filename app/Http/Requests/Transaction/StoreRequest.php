@@ -48,4 +48,14 @@ class StoreRequest extends FormRequest
 			'price.gt'        => 'El precio debe ser un valor positivo.',
 		];
 	}
+
+	public function attributes(): array
+	{
+		return [
+			'symbol' => 'símbolo',
+			'type' => 'tipo',
+			'amount' => 'cantidad',
+			'price' => 'precio',
+		];
+	}
 }
