@@ -10,7 +10,12 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-  public function __construct(private AuthService $authService) {}
+  protected $authService;
+
+  public function __construct(AuthService $authService)
+  {
+    $this->authService = $authService;
+  }
 
   /**
    * Obtiene la versión de la API

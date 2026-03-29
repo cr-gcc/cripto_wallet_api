@@ -18,13 +18,13 @@ class AuthService
   public function me()
   {
     $user = Auth::user();
-    return response()->json($user);
+    return $user;
   }
 
   public function register()
   {
     $user = Auth::user();
-    return response()->json($user);
+    return $user;
   }
 
   public function login($request)
@@ -34,17 +34,19 @@ class AuthService
     }
     $user = Auth::user();
     $token = $user->createToken('authToken')->accessToken;
-    return response()->json([
+    $data = [
       'token' => $token,
       'user' => $user
-    ]);
+    ];
+    return $data;
   }
 
   public function logout()
   {
     Auth::user()->token()->revoke();
-    return response()->json([
+    $data = [
       'message' => 'Logout successful'
-    ]);
+    ];
+    return $data;
   }
 }

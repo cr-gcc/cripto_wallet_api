@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Notification\NotificationService;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-  public function index(Request $request)
+  protected $notificationService;
+
+  public function __construct(NotificationService $notificationService)
   {
-    return response()->json(
-      $request->user()
-        ->notifications()
-        ->latest()
-        ->paginate(10)
-    );
+    $this->notificationService = $notificationService;
   }
 
-  public function markAsRead(Request $request, $id)
+  public function index(Request $request)
   {
-    $notification = $request->user()->notifications()->find($id);
-    if ($notification) {
-      $notification->markAsRead();
-      return response()->json([
-        'message' => 'Notification marked as read'
-      ]);
-    }
+    $notifications = $this->notificationService->index($request);
+    return response()->json($notifications);
+  }
+
+  public function markAsRead()
+  {
+    $notification = $this->notificationService->markAsRead();
     return response()->json([
-      'message' => 'Notification not found'
-    ], 404);
+      'message' => $notification['message']
+    ], $notification['status']);
   }
 }

@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Transactions;
+namespace App\Services\Portfolio;
 
-use App\Http\Controllers\Controller;
-use App\Models\Transaction;
-use App\Models\Wallet;
-use App\Http\Requests\Transaction\StoreRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-
-class TransactionController extends Controller
+class TransactionService
 {
-  public function index()
+  /**
+   * Create a new class instance.
+   */
+  public function __construct()
   {
-    return Auth::user()->transactions()
-      ->latest()
-      ->get();
+    //
   }
 
-  public function store(StoreRequest $request)
+  public function index()
+  {
+    $lastTransactions = Auth::user()->transactions()
+      ->latest()
+      ->get();
+    return $lastTransactions;
+  }
+
+  public function store($request)
   {
     $symbol = strtolower($request->symbol);
 
@@ -52,6 +54,6 @@ class TransactionController extends Controller
     }
 
     $wallet->save();
-    return response()->json($transaction);
+    return $transaction;
   }
 }

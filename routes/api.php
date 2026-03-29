@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Crypto\CryptoController;
 use App\Http\Controllers\Api\V1\Wallets\WalletController;
 use App\Http\Controllers\Api\V1\Transactions\TransactionController;
 use App\Http\Controllers\Api\V1\Alerts\AlertController;
+use App\Http\Controllers\Api\V1\Portfolio\PortfolioController;
 use App\Http\Controllers\NotificationController;
 
 Route::prefix('v1')->group(function () {
@@ -26,17 +27,20 @@ Route::prefix('v1')->group(function () {
 			Route::get('/me', [AuthController::class, 'me']);
 			Route::post('/logout', [AuthController::class, 'logout']);
 		});
+		//	PORTFOLIO
+		Route::prefix('portfolio')->group(function () {
+			Route::get('/', [PortfolioController::class, 'index']);
+		});
+    //	TRANSACTION
+		Route::prefix('transactions')->group(function () {
+			Route::get('/', [TransactionController::class, 'index']);
+			Route::post('/', [TransactionController::class, 'store']);
+		});
 		//	WALLET
 		Route::prefix('wallet')->group(function () {
 			Route::get('/', [WalletController::class, 'index']);
 			Route::post('/', [WalletController::class, 'store']);
 			Route::delete('/{id}', [WalletController::class, 'destroy']);
-			Route::get('/portfolio', [WalletController::class, 'portfolio']);
-		});
-		//	TRANSACTION
-		Route::prefix('transactions')->group(function () {
-			Route::get('/', [TransactionController::class, 'index']);
-			Route::post('/', [TransactionController::class, 'store']);
 		});
 		//  ALERTS
 		Route::prefix('alerts')->group(function () {
@@ -46,7 +50,7 @@ Route::prefix('v1')->group(function () {
 		//  NOTIFICATIONS
 		Route::prefix('notifications')->group(function () {
 			Route::get('/', [NotificationController::class, 'index']);
-			Route::post('/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
+			Route::get('/mark-as-read', [NotificationController::class, 'markAsRead']);
 		});
 	});
 });

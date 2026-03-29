@@ -1,21 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Alerts;
-use App\Http\Controllers\Controller;
-use App\Models\PriceAlert;
-use App\Http\Requests\PriceAlert\StoreRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+namespace App\Services\Alerts;
 
-class AlertController extends Controller
+use App\Models\PriceAlert;
+use Illuminate\Support\Facades\Auth;
+
+class PriceAlertService
 {
+    /**
+     * Create a new class instance.
+     */
+    public function __construct()
+    {
+        //
+    }
 
 	public function index()
 	{
 		return Auth::user()->alerts()->get();
 	}
 
-	public function store(StoreRequest $request)
+	public function store($request)
 	{
 		$alert = PriceAlert::create([
 			'user_id' => Auth::id(),
@@ -24,6 +29,6 @@ class AlertController extends Controller
 			'target_price' => $request->target_price
 		]);
 
-		return response()->json($alert);
+		return $alert;
 	}
 }

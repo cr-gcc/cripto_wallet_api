@@ -36,9 +36,10 @@ class PortfolioService
       $total += $value;
     }
 
-    return [
+    $data = [
       'total_value_usd' => $total,
       'assets' => $assets
     ];
+    return $data;
   }
 }
