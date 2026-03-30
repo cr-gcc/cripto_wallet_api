@@ -3,7 +3,9 @@
 namespace App\Services\Auth;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Exceptions\Auth\InvalidCredentialsException;
+use App\Exceptions\Auth\UserCreationException;
 
 class AuthService
 {
@@ -17,26 +19,31 @@ class AuthService
 
   public function me()
   {
-    $user = Auth::user();
+    return Auth::user();
+  }
+
+  public function register(array $data)
+  {
+    $data['password'] = Hash::make($data['password']);
+    $user = User::create($data);
+    if (!$user) {
+      throw new UserCreationException();
+    }
     return $user;
   }
 
-  public function register()
+  public function login(array $data)
   {
-    $user = Auth::user();
-    return $user;
-  }
-
-  public function login($request)
-  {
-    if (!Auth::attempt($request->only('email', 'password'))) {
-      return response()->json(['error' => 'Unauthorized'], 401);
+    $email = $data['email'];
+    $password = $data['password'];
+    if (!Auth::attempt(['email' => $email, 'password' => $password])) {
+      throw new InvalidCredentialsException();
     }
     $user = Auth::user();
     $token = $user->createToken('authToken')->accessToken;
     $data = [
+      'user' => $user,
       'token' => $token,
-      'user' => $user
     ];
     return $data;
   }
@@ -45,7 +52,7 @@ class AuthService
   {
     Auth::user()->token()->revoke();
     $data = [
-      'message' => 'Logout successful'
+      'message' => 'Successfully logged out',
     ];
     return $data;
   }
