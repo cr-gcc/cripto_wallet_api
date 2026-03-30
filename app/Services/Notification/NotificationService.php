@@ -25,16 +25,10 @@ class NotificationService
 
   public function markAsRead()
   {
-    $now = Carbon::now(); 
+    $now = Carbon::now();
     $user = auth()->user();
     $updated = $user->unreadNotifications()
       ->update(['read_at' => $now]);
-
-    $data = [
-      'message' => 'Notifications marked as read',
-      'updated' => $updated
-    ];
-
-    return $data;
+    return $updated;
   }
 }

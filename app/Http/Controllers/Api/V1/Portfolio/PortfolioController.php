@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1\Portfolio;
 
 use App\Http\Controllers\Controller;
 use App\Services\Portfolio\PortfolioService;
-use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {

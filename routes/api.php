@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function () {
 		//	AUTH
 		Route::prefix('auth')->group(function () {
 			Route::get('/me', [AuthController::class, 'me']);
-			Route::post('/logout', [AuthController::class, 'logout']);
+			Route::get('/logout', [AuthController::class, 'logout']);
 		});
 		//	PORTFOLIO
 		Route::prefix('portfolio')->group(function () {

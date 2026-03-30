@@ -20,16 +20,16 @@ class TransactionService
     return $lastTransactions;
   }
 
-  public function store($request)
+  public function store(array $data)
   {
-    $symbol = strtolower($request->symbol);
+    $symbol = strtolower($data['symbol']);
 
     $transaction = Transaction::create([
       'user_id' => Auth::id(),
       'symbol' => $symbol,
-      'type' => $request->type,
-      'amount' => $request->amount,
-      'price' => $request->price
+      'type' => $data['type'],
+      'amount' => $data['amount'],
+      'price' => $data['price']
     ]);
 
     $wallet = Wallet::firstOrCreate(
@@ -42,18 +42,16 @@ class TransactionService
       ]
     );
 
-    if ($request->type === 'buy') {
-      $wallet->amount += $request->amount;
+    if ($data['type'] === 'buy') {
+      $wallet->amount += $data['amount'];
     } else {
-      $wallet->amount -= $request->amount;
+      $wallet->amount -= $data['amount'];
       if ($wallet->amount < 0) {
-        return response()->json([
-          'error' => 'Insufficient balance'
-        ], 400);
+        throw new \Exception('Insufficient balance');
       }
     }
-
     $wallet->save();
+
     return $transaction;
   }
 }

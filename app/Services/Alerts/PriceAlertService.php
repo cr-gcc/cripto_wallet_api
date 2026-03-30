@@ -20,13 +20,13 @@ class PriceAlertService
 		return Auth::user()->alerts()->get();
 	}
 
-	public function store($request)
+	public function store(array $data)
 	{
 		$alert = PriceAlert::create([
 			'user_id' => Auth::id(),
-			'symbol' => strtolower($request->symbol),
-			'condition' => $request->condition,
-			'target_price' => $request->target_price
+			'symbol' => strtolower($data['symbol']),
+			'condition' => $data['condition'],
+			'target_price' => $data['target_price']
 		]);
 
 		return $alert;

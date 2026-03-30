@@ -18,7 +18,7 @@ class CryptoService
     $this->baseUrl = $baseUrl;
   }
 
-  public function getPrices(): array
+  public function getPrices()
   {
     $url = $this->baseUrl . '/simple/price';
     $params = [

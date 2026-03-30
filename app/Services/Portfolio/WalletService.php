@@ -33,23 +33,15 @@ class WalletService
 
   public function destroy($id)
   {
-    $message = '';
-    $status = 404;
     $user = Auth::user();
     $wallet = Wallet::where('user_id', $user->id)
       ->where('id', $id)
       ->first();
     if (!$wallet) {
-      $message = 'Wallet no encontrada';
+      throw new \Exception('Wallet not found');
     } else {
       $wallet->delete();
-      $message = 'Wallet eliminada correctamente';
-      $status = 200;
     }
-    $data = [
-      'message' => $message,
-      'status' => $status
-    ];
-    return $data;
+    return $wallet;
   }
 }

@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api\V1\Portfolio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Wallet\StoreRequest;
 use App\Services\Portfolio\WalletService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
@@ -19,10 +17,9 @@ class WalletController extends Controller
 
   /**
    * Obtiene todas las wallets del usuario
-   * @param Request $request
    * @return \Illuminate\Http\JsonResponse
    */
-  public function index(Request $request)
+  public function index()
   {
     $wallets = $this->walletService->index();
     return response()->json($wallets);

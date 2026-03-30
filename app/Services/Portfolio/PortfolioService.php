@@ -37,8 +37,8 @@ class PortfolioService
     }
 
     $data = [
+      'assets' => $assets,
       'total_value_usd' => $total,
-      'assets' => $assets
     ];
     return $data;
   }

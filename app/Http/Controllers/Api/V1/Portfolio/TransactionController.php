@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1\Portfolio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\StoreRequest;
 use App\Services\Portfolio\TransactionService;
-use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {

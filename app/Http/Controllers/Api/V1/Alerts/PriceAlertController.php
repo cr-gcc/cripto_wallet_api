@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1\Alerts;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PriceAlert\StoreRequest;
 use App\Services\Alerts\PriceAlertService;
-use Illuminate\Http\Request;
 
 class PriceAlertController extends Controller
 {
@@ -18,12 +17,13 @@ class PriceAlertController extends Controller
 
 	public function index()
 	{
-		return $this->priceAlertService->index();
+		$alerts = $this->priceAlertService->index();
+		return response()->json($alerts);
 	}
 
 	public function store(StoreRequest $request)
 	{
-		$alert = $this->priceAlertService->store($request);
+		$alert = $this->priceAlertService->store($request->validated());
 		return response()->json($alert);
 	}
 }
