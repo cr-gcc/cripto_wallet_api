@@ -7,7 +7,8 @@ use App\Http\Controllers\Api\V1\Wallets\WalletController;
 use App\Http\Controllers\Api\V1\Transactions\TransactionController;
 use App\Http\Controllers\Api\V1\Alerts\AlertController;
 use App\Http\Controllers\Api\V1\Portfolio\PortfolioController;
-use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Api\V1\Alerts\PriceAlertController;
+use App\Http\Controllers\Api\V1\NotificationController;
 
 Route::prefix('v1')->group(function () {
 	//	AUTH
@@ -44,8 +45,10 @@ Route::prefix('v1')->group(function () {
 		});
 		//  ALERTS
 		Route::prefix('alerts')->group(function () {
-			Route::get('/', [AlertController::class, 'index']);
-			Route::post('/', [AlertController::class, 'store']);
+			Route::get('/', [PriceAlertController::class, 'index']);
+			Route::post('/', [PriceAlertController::class, 'store']);
+      Route::put('/{alert}', [PriceAlertController::class, 'update']);
+      Route::delete('/{alert}', [PriceAlertController::class, 'destroy']);
 		});
 		//  NOTIFICATIONS
 		Route::prefix('notifications')->group(function () {

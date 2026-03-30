@@ -26,6 +26,7 @@ class RegisterRequest extends FormRequest
       'birth_date' => 'required|date',
       'email' => 'required|string|email|max:255|unique:users',
       'password' => 'required|string|min:8|confirmed',
+      'password_confirmation' => 'required|string|min:8',
     ];
   }
 
@@ -36,6 +37,8 @@ class RegisterRequest extends FormRequest
       'birth_date.required' => 'La fecha de nacimiento es requerida',
       'email.required' => 'El correo es requerido',
       'password.required' => 'La contraseña es requerida',
+      'password.confirmed' => 'La contraseña no coincide',
+      'password_confirmation.required' => 'La confirmación de la contraseña es requerida',
     ];
   }
 }

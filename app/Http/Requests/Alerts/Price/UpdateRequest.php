@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\PriceAlert;
+namespace App\Http\Requests\Alerts\Price;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -35,7 +35,7 @@ class StoreRequest extends FormRequest
       'symbol.required' => 'El símbolo del activo es obligatorio (ej. BTCUSDT).',
       'symbol.string'   => 'El símbolo debe ser una cadena de texto válida.',
       // Mensajes para 'condition'
-      'condition.required' => 'Debes seleccionar una condición de precio.',
+      'condition.required' => 'Debes seleccionar una condición de precio (mayor o menor al precio actual).',
       'condition.in'       => 'La condición debe ser "mayor que" (>) o "menor que" (<).',
       // Mensajes para 'target_price'
       'target_price.required' => 'El precio objetivo es obligatorio.',
