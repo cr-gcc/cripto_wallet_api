@@ -32,7 +32,7 @@ class WalletController extends Controller
    */
   public function store(StoreRequest $request)
   {
-    $wallet = $this->walletService->store($request);
+    $wallet = $this->walletService->store($request->validated());
     return response()->json($wallet);
   }
 

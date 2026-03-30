@@ -2,6 +2,9 @@
 
 namespace App\Services\Portfolio;
 
+use App\Models\Wallet;
+use Illuminate\Support\Facades\Auth;
+
 class WalletService
 {
   /**
@@ -19,14 +22,14 @@ class WalletService
     return $wallets;
   }
 
-  public function store(StoreRequest $request)
+  public function store(array $data)
   {
     $user = Auth::user();
     $wallet = new Wallet();
     $wallet->user_id = $user->id;
-    $wallet->symbol = strtolower($request->symbol);
-    $wallet->amount = $request->amount;
-    $wallet->avg_price = $request->avg_price;
+    $wallet->symbol = strtolower($data['symbol']);
+    $wallet->amount = $data['amount'];
+    $wallet->avg_price = $data['avg_price'];
     $wallet->save();
     return $wallet;
   }
