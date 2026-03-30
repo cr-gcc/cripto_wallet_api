@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Crypto\CryptoController;
-use App\Http\Controllers\Api\V1\Wallets\WalletController;
-use App\Http\Controllers\Api\V1\Transactions\TransactionController;
-use App\Http\Controllers\Api\V1\Alerts\AlertController;
+use App\Http\Controllers\Api\V1\Portfolio\WalletController;
+use App\Http\Controllers\Api\V1\Portfolio\TransactionController;
 use App\Http\Controllers\Api\V1\Portfolio\PortfolioController;
 use App\Http\Controllers\Api\V1\Alerts\PriceAlertController;
 use App\Http\Controllers\Api\V1\NotificationController;

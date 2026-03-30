@@ -2,6 +2,11 @@
 
 namespace App\Services\Portfolio;
 
+use App\Models\Transaction;
+use App\Models\Wallet;
+use App\Exceptions\Portfolio\Transactions\InsufficientFundsException;
+use Illuminate\Support\Facades\Auth;
+
 class TransactionService
 {
   /**
@@ -14,16 +19,13 @@ class TransactionService
 
   public function index()
   {
-    $lastTransactions = Auth::user()->transactions()
-      ->latest()
-      ->get();
+    $lastTransactions = Auth::user()->transactions()->get();
     return $lastTransactions;
   }
 
   public function store(array $data)
   {
     $symbol = strtolower($data['symbol']);
-
     $transaction = Transaction::create([
       'user_id' => Auth::id(),
       'symbol' => $symbol,
@@ -31,7 +33,6 @@ class TransactionService
       'amount' => $data['amount'],
       'price' => $data['price']
     ]);
-
     $wallet = Wallet::firstOrCreate(
       [
         'user_id' => Auth::id(),
@@ -41,17 +42,15 @@ class TransactionService
         'amount' => 0
       ]
     );
-
     if ($data['type'] === 'buy') {
       $wallet->amount += $data['amount'];
     } else {
       $wallet->amount -= $data['amount'];
       if ($wallet->amount < 0) {
-        throw new \Exception('Insufficient balance');
+        throw new InsufficientFundsException();
       }
     }
     $wallet->save();
-
     return $transaction;
   }
 }

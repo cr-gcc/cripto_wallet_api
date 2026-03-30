@@ -17,13 +17,13 @@ class TransactionController extends Controller
 
   public function index()
   {
-    $lastTransactions = $this->transactionService->index();
-    return response()->json($lastTransactions);
+    $transactions = $this->transactionService->index();
+    return response()->json($transactions);
   }
 
   public function store(StoreRequest $request)
   {
-    $transaction = $this->transactionService->store($request);
+    $transaction = $this->transactionService->store($request->validated());
     return response()->json($transaction);
   }
 }
